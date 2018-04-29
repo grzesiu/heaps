@@ -24,9 +24,25 @@ const T Fibonacci<T>::top() const
 }
 
 template <typename T>
-void Fibonacci<T>::push(T val)
+void Fibonacci<T>::push(Node *node)
 {
-    Node *node = new Node(val);
+    if (root == nullptr)
+    {
+        root = node->left = node->right = node;
+    }
+    else
+    {
+        Node *root_right = root->right;
+        root->right = node;
+        root_right->left = node;
+        node->right = root_right;
+        node->left = root;
+
+        if (node->key < root->key)
+        {
+            node = root;
+        }
+    }
 }
 
 template <typename T>
@@ -35,7 +51,7 @@ const T Fibonacci<T>::pop()
 }
 
 template <typename T>
-void Fibonacci<T>::decrease_key(Node &node, T key)
+void Fibonacci<T>::decrease_key(Node *node, T key)
 {
 }
 

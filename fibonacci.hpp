@@ -3,7 +3,7 @@
 template <typename T>
 class Fibonacci
 {
-
+public:
   class Node
   {
   public:
@@ -19,16 +19,14 @@ class Fibonacci
     Node *right = nullptr;
     Node *child = nullptr;
   };
-
-public:
   Fibonacci();
   Fibonacci(std::function<bool(T const &, T const &)> comp);
   bool empty() const;
   unsigned int size() const;
   const T top() const;
-  void push(T val);
+  void push(Node *node);
   const T pop();
-  void decrease_key(Node &node, T key);
+  void decrease_key(Node *node, T key);
 
 private:
   Node *root;
