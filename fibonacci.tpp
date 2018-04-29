@@ -24,6 +24,13 @@ const T Fibonacci<T>::top() const
 }
 
 template <typename T>
+void Fibonacci<T>::push(T val)
+{
+    Node *node = new Node(val);
+    push(node);
+}
+
+template <typename T>
 void Fibonacci<T>::push(Node *node)
 {
     if (root == nullptr)
@@ -43,6 +50,7 @@ void Fibonacci<T>::push(Node *node)
             node = root;
         }
     }
+    ++n;
 }
 
 template <typename T>

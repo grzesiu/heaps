@@ -24,6 +24,7 @@ public:
   bool empty() const;
   unsigned int size() const;
   const T top() const;
+  void push(T val);
   void push(Node *node);
   const T pop();
   void decrease_key(Node *node, T key);
