@@ -30,3 +30,5 @@ public:
   void pop();
   void decrease_key(Node &node, T key);
 };
+
+#include "fibonacci.tpp"
