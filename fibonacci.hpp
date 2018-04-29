@@ -29,6 +29,10 @@ public:
   void push(T val);
   const T pop();
   void decrease_key(Node &node, T key);
+
+private:
+  Node *root;
+  unsigned int n = 0;
 };
 
 #include "fibonacci.tpp"

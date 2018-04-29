@@ -1,10 +1,8 @@
 template <typename T>
-Fibonacci<T>::Fibonacci()
-{
-}
+Fibonacci<T>::Fibonacci() : root(nullptr) {}
 
 template <typename T>
-Fibonacci<T>::Fibonacci(std::function<bool(T const &, T const &)> comp)
+Fibonacci<T>::Fibonacci(std::function<bool(T const &, T const &)> comp) : root(nullptr)
 {
 }
 
@@ -17,6 +15,7 @@ bool Fibonacci<T>::empty() const
 template <typename T>
 unsigned int Fibonacci<T>::size() const
 {
+    return n;
 }
 
 template <typename T>
