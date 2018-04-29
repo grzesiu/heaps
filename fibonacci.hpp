@@ -1,18 +1,32 @@
-template <typename value_type>
+#include <functional>
+
+template <typename T>
 class Fibonacci
 {
 
   class Node
   {
+  public:
+    Node(T key);
+    bool is_marked() const;
+    bool get_value() const;
+
+  private:
+    bool marked;
+    T key;
+    Node &parent;
+    Node &left;
+    Node &right;
+    Node &child;
   };
 
 public:
-  explicit priority_queue(const Compare &comp = Compare());
+  Fibonacci();
+  Fibonacci(std::function<bool(T const &, T const &)> comp);
   bool empty() const;
-  size_type size() const;
-  const value_type &top() const;
-  void push(const value_type &val);
+  unsigned int size() const;
+  const T &top() const;
+  void push(const T &val);
   void pop();
-
-private:
+  void decrease_key(Node &node, T key);
 };
