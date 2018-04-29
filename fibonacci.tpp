@@ -26,6 +26,7 @@ const T Fibonacci<T>::top() const
 template <typename T>
 void Fibonacci<T>::push(T val)
 {
+    Node *node = new Node(val);
 }
 
 template <typename T>
@@ -39,9 +40,7 @@ void Fibonacci<T>::decrease_key(Node &node, T key)
 }
 
 template <typename T>
-Fibonacci<T>::Node::Node(T key) : key(key)
-{
-}
+Fibonacci<T>::Node::Node(T key) : key(key) {}
 
 template <typename T>
 bool Fibonacci<T>::Node::is_marked() const

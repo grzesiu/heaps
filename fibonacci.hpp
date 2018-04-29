@@ -12,12 +12,12 @@ class Fibonacci
     bool get_value() const;
 
   private:
-    bool marked = false;
     T key;
-    Node *parent;
-    Node *left;
-    Node *right;
-    Node *child;
+    bool marked = false;
+    Node *parent = nullptr;
+    Node *left = nullptr;
+    Node *right = nullptr;
+    Node *child = nullptr;
   };
 
 public:
