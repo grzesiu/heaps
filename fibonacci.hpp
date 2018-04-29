@@ -9,7 +9,7 @@ public:
   public:
     Node(T key);
     bool is_marked() const;
-    bool get_value() const;
+    bool get_key() const;
 
   private:
     T key;
