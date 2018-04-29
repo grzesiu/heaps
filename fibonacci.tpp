@@ -20,17 +20,17 @@ unsigned int Fibonacci<T>::size() const
 }
 
 template <typename T>
-const T &Fibonacci<T>::top() const
+const T Fibonacci<T>::top() const
 {
 }
 
 template <typename T>
-void Fibonacci<T>::push(const T &val)
+void Fibonacci<T>::push(T val)
 {
 }
 
 template <typename T>
-void Fibonacci<T>::pop()
+const T Fibonacci<T>::pop()
 {
 }
 
@@ -40,7 +40,7 @@ void Fibonacci<T>::decrease_key(Node &node, T key)
 }
 
 template <typename T>
-Fibonacci<T>::Node::Node(T key)
+Fibonacci<T>::Node::Node(T key) : key(key)
 {
 }
 

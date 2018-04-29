@@ -25,9 +25,9 @@ public:
   Fibonacci(std::function<bool(T const &, T const &)> comp);
   bool empty() const;
   unsigned int size() const;
-  const T &top() const;
-  void push(const T &val);
-  void pop();
+  const T top() const;
+  void push(T val);
+  const T pop();
   void decrease_key(Node &node, T key);
 };
 
