@@ -1,4 +1,4 @@
-#include <iostream>
+#include <cmath>
 
 template <typename T>
 Fibonacci<T>::Fibonacci() : root(nullptr) {}
@@ -39,7 +39,25 @@ void Fibonacci<T>::pop()
     Node *old = root;
     Node *curr = old->child;
 
-    root = get_next_on_root_level();
+    Node *next = root->left;
+    if (next != root)
+    {
+        Node *curr = next->left;
+
+        while (curr != root)
+        {
+            if (curr->key < next->key)
+            {
+                next = curr;
+            }
+            curr = curr->left;
+        }
+        root = next;
+    }
+    else
+    {
+        root = nullptr;
+    }
 
     if (curr != nullptr)
     {
@@ -102,30 +120,6 @@ void Fibonacci<T>::push(Node *node)
 }
 
 template <typename T>
-typename Fibonacci<T>::Node *Fibonacci<T>::get_next_on_root_level()
-{
-    Node *next = root->left;
-    if (next != root)
-    {
-        Node *curr = next->left;
-
-        while (curr != root)
-        {
-            if (curr->key < next->key)
-            {
-                next = curr;
-            }
-            curr = curr->left;
-        }
-        return next;
-    }
-    else
-    {
-        return nullptr;
-    }
-}
-
-template <typename T>
 Fibonacci<T>::Node::Node(T key) : key(key) {}
 
 template <typename T>
@@ -138,4 +132,12 @@ template <typename T>
 bool Fibonacci<T>::Node::get_key() const
 {
     return key;
+}
+
+template <typename T>
+unsigned int Fibonacci<T>::max_degree() const
+{
+    return static_cast<unsigned int>(
+        std::floor(std::log(static_cast<double>(n)) /
+                   std::log(static_cast<double>(1 + std::sqrt(static_cast<double>(5))) / 2)));
 }
