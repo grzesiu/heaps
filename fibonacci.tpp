@@ -1,3 +1,5 @@
+#include <iostream>
+
 template <typename T>
 Fibonacci<T>::Fibonacci() : root(nullptr) {}
 
@@ -34,6 +36,41 @@ void Fibonacci<T>::push(T key)
 template <typename T>
 void Fibonacci<T>::pop()
 {
+    Node *old = root;
+    Node *curr = old->child;
+
+    root = get_next_on_root_level();
+
+    if (curr != nullptr)
+    {
+        if (root != nullptr)
+        {
+            curr->right = old->right;
+            old->right->left = curr;
+        }
+
+        do
+        {
+            curr->parent = nullptr;
+            curr = curr->left;
+            if (curr->key < root->key)
+            {
+                root = curr;
+            }
+        } while (curr != old->child);
+
+        if (root != nullptr)
+        {
+            curr->left = old->left;
+            old->left->right = curr;
+        }
+    }
+    else
+    {
+        old->right->left = old->left;
+        old->left->right = old->right;
+    }
+    delete old;
 }
 
 template <typename T>
@@ -58,10 +95,34 @@ void Fibonacci<T>::push(Node *node)
 
         if (node->key < root->key)
         {
-            node = root;
+            root = node;
         }
     }
     ++n;
+}
+
+template <typename T>
+typename Fibonacci<T>::Node *Fibonacci<T>::get_next_on_root_level()
+{
+    Node *next = root->left;
+    if (next != root)
+    {
+        Node *curr = next->left;
+
+        while (curr != root)
+        {
+            if (curr->key < next->key)
+            {
+                next = curr;
+            }
+            curr = curr->left;
+        }
+        return next;
+    }
+    else
+    {
+        return nullptr;
+    }
 }
 
 template <typename T>

@@ -8,6 +8,15 @@ int main()
     f.push(4);
     f.push(2);
     f.push(10);
-    std::cout << f.top();
+    f.push(10);
+    std::cout << f.top() << std::endl;
+    f.pop();
+    std::cout << f.top() << std::endl;
+    f.pop();
+    std::cout << f.top() << std::endl;
+    f.pop();
+    std::cout << f.top() << std::endl;
+    f.pop();
+    std::cout << f.top() << std::endl;
     return 0;
 }

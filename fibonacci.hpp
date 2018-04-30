@@ -35,6 +35,7 @@ private:
   Node *root;
   unsigned int n = 0;
   void push(Node *node);
+  Node *get_next_on_root_level();
 };
 
 #include "fibonacci.tpp"
