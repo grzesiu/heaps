@@ -6,6 +6,8 @@ class Fibonacci
 public:
   class Node
   {
+    friend class Fibonacci;
+
   public:
     Node(T key);
     bool is_marked() const;
