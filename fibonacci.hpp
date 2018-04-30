@@ -14,6 +14,7 @@ public:
   private:
     T key;
     bool marked = false;
+    unsigned int degree = 0;
     Node *parent = nullptr;
     Node *left = nullptr;
     Node *right = nullptr;
@@ -25,13 +26,13 @@ public:
   unsigned int size() const;
   const T top() const;
   void push(T val);
-  void push(Node *node);
-  const T pop();
+  void pop();
   void decrease_key(Node *node, T key);
 
 private:
   Node *root;
   unsigned int n = 0;
+  void push(Node *node);
 };
 
 #include "fibonacci.tpp"

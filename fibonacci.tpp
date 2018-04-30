@@ -32,6 +32,16 @@ void Fibonacci<T>::push(T key)
 }
 
 template <typename T>
+void Fibonacci<T>::pop()
+{
+}
+
+template <typename T>
+void Fibonacci<T>::decrease_key(Node *node, T key)
+{
+}
+
+template <typename T>
 void Fibonacci<T>::push(Node *node)
 {
     if (root == nullptr)
@@ -52,16 +62,6 @@ void Fibonacci<T>::push(Node *node)
         }
     }
     ++n;
-}
-
-template <typename T>
-const T Fibonacci<T>::pop()
-{
-}
-
-template <typename T>
-void Fibonacci<T>::decrease_key(Node *node, T key)
-{
 }
 
 template <typename T>
