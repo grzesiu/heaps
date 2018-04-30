@@ -7,16 +7,12 @@ public:
   class Node
   {
     friend class Fibonacci;
-
-  public:
-    Node(T key);
+    T key;
     bool is_marked() const;
     bool get_key() const;
-
-  private:
-    T key;
     bool marked = false;
     unsigned int degree = 0;
+    Node(T key);
     Node *parent = nullptr;
     Node *left = nullptr;
     Node *right = nullptr;
@@ -36,6 +32,7 @@ private:
   unsigned int n = 0;
   void push(Node *node);
   unsigned int max_degree() const;
+  void consolidate();
 };
 
 #include "fibonacci.tpp"

@@ -36,59 +36,45 @@ void Fibonacci<T>::push(T key)
 template <typename T>
 void Fibonacci<T>::pop()
 {
-    Node *old = root;
-    Node *curr = old->child;
-
-    Node *next = root->left;
-    if (next != root)
+    if (root != nullptr)
     {
-        Node *curr = next->left;
-
-        while (curr != root)
+        Node *curr = root->child;
+        if (curr != nullptr)
         {
-            if (curr->key < next->key)
+            Node **children = new Node *[root->degree]();
+            for (int i = 0; i < root->degree; i++)
             {
-                next = curr;
+                children[i] = curr;
+                curr = curr->left;
             }
-            curr = curr->left;
-        }
-        root = next;
-    }
-    else
-    {
-        root = nullptr;
-    }
-
-    if (curr != nullptr)
-    {
-        if (root != nullptr)
-        {
-            curr->right = old->right;
-            old->right->left = curr;
-        }
-
-        do
-        {
-            curr->parent = nullptr;
-            curr = curr->left;
-            if (curr->key < root->key)
+            for (int i = 0; i < root->degree; i++)
             {
-                root = curr;
+                root->left->right = children[i];
+                children[i]->left = root->left;
+                root->left = children[i];
+                children[i]->right = root;
+                children[i]->parent = nullptr;
             }
-        } while (curr != old->child);
-
-        if (root != nullptr)
-        {
-            curr->left = old->left;
-            old->left->right = curr;
+            delete[] children;
         }
+
+        Node *old_root = root;
+
+        if (root == root->right)
+        {
+            root = nullptr;
+        }
+        else
+        {
+            root->right->left = root->left;
+            root->left->right = root->right;
+            root = root->right;
+            consolidate();
+        }
+
+        delete old_root;
+        n--;
     }
-    else
-    {
-        old->right->left = old->left;
-        old->left->right = old->right;
-    }
-    delete old;
 }
 
 template <typename T>
@@ -138,6 +124,11 @@ template <typename T>
 unsigned int Fibonacci<T>::max_degree() const
 {
     return static_cast<unsigned int>(
-        std::floor(std::log(static_cast<double>(n)) /
-                   std::log(static_cast<double>(1 + std::sqrt(static_cast<double>(5))) / 2)));
+        std::ceil(std::log(static_cast<double>(n)) /
+                  std::log(static_cast<double>(1 + std::sqrt(static_cast<double>(5))) / 2)));
+}
+
+template <typename T>
+void Fibonacci<T>::consolidate()
+{
 }
