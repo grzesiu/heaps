@@ -233,6 +233,24 @@ void Fibonacci<T>::insert(Node *parent, Node *child)
 template <typename T>
 void Fibonacci<T>::cut(Node *parent, Node *child)
 {
+    if (child->left == child)
+    {
+        parent->child = nullptr;
+    }
+    else
+    {
+        child->right->left = child->left;
+        child->left->right = child->right;
+        if (parent->child == child)
+        {
+            parent->child = child->left;
+        }
+    }
+    parent->degree--;
+
+    insert(root, child);
+    child->parent = nullptr;
+    child->marked = false;
 }
 
 template <typename T>
