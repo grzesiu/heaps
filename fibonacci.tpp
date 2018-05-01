@@ -49,10 +49,7 @@ void Fibonacci<T>::pop()
             }
             for (int i = 0; i < root->degree; i++)
             {
-                root->left->right = children[i];
-                children[i]->left = root->left;
-                root->left = children[i];
-                children[i]->right = root;
+                insert(root, children[i]);
                 children[i]->parent = nullptr;
             }
             delete[] children;
@@ -93,12 +90,7 @@ void Fibonacci<T>::push(Node *node)
     }
     else
     {
-        Node *root_right = root->right;
-        root->right = node;
-        root_right->left = node;
-        node->right = root_right;
-        node->left = root;
-
+        insert(root, node);
         if (node->key < root->key)
         {
             root = node;
@@ -185,10 +177,7 @@ void Fibonacci<T>::consolidate()
             }
             else
             {
-                root->left->right = nodes[i];
-                nodes[i]->left = root->left;
-                root->left = nodes[i];
-                nodes[i]->right = root;
+                insert(root, nodes[i]);
                 if (nodes[i]->key < root->key)
                 {
                     root = nodes[i];
@@ -212,12 +201,18 @@ typename Fibonacci<T>::Node *Fibonacci<T>::merge(Node *parent, Node *child)
     }
     else
     {
-        parent->child->left->right = child;
-        child->left = parent->child->left;
-        parent->child->left = child;
-        child->right = parent->child;
+        insert(parent->child, child);
     }
     child->parent = parent;
     child->marked = false;
     return parent;
+}
+
+template <typename T>
+void Fibonacci<T>::insert(Node *where, Node *what)
+{
+    where->left->right = what;
+    what->left = where->left;
+    where->left = what;
+    what->right = where;
 }

@@ -34,6 +34,7 @@ private:
   unsigned int get_max_degree() const;
   void consolidate();
   Node *merge(Node *parent, Node *child);
+  void insert(Node *where, Node *what);
 };
 
 #include "fibonacci.tpp"
