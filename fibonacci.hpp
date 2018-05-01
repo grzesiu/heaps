@@ -9,7 +9,7 @@ public:
     friend class Fibonacci;
     T key;
     bool marked = false;
-    unsigned int degree = 0;
+    int degree = 0;
     Node(T key);
     Node *parent = nullptr;
     Node *left = nullptr;
@@ -27,7 +27,7 @@ public:
   Fibonacci();
   Fibonacci(std::function<bool(T const &, T const &)> comp);
   bool empty() const;
-  unsigned int size() const;
+  int size() const;
   Node *top() const;
   Node *push(T val);
   void pop();
@@ -36,9 +36,9 @@ public:
 
 private:
   Node *root;
-  unsigned int n = 0;
+  int n = 0;
   Node *push(Node *node);
-  unsigned int get_max_degree() const;
+  int get_max_degree() const;
   void consolidate();
   Node *merge(Node *parent, Node *child);
   void insert(Node *parent, Node *child);

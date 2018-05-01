@@ -16,7 +16,7 @@ bool Fibonacci<T>::empty() const
 }
 
 template <typename T>
-unsigned int Fibonacci<T>::size() const
+int Fibonacci<T>::size() const
 {
     return n;
 }
@@ -122,9 +122,9 @@ typename Fibonacci<T>::Node *Fibonacci<T>::push(Node *node)
 }
 
 template <typename T>
-unsigned int Fibonacci<T>::get_max_degree() const
+int Fibonacci<T>::get_max_degree() const
 {
-    return static_cast<unsigned int>(
+    return static_cast<int>(
         std::ceil(std::log(static_cast<double>(n)) /
                   std::log(static_cast<double>(1 + std::sqrt(static_cast<double>(5))) / 2)));
 }
@@ -132,10 +132,10 @@ unsigned int Fibonacci<T>::get_max_degree() const
 template <typename T>
 void Fibonacci<T>::consolidate()
 {
-    unsigned int max_degree = get_max_degree() + 1;
+    int max_degree = get_max_degree() + 1;
     Node **nodes = new Node *[max_degree]();
     Node *curr = root;
-    unsigned int root_list_size = 0;
+    int root_list_size = 0;
 
     do
     {
