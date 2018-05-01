@@ -77,6 +77,19 @@ void Fibonacci<T>::pop()
 template <typename T>
 void Fibonacci<T>::decrease_priority(Node *node, T key)
 {
+    if (key < node->key)
+    {
+        node->key = key;
+        if (node->parent != nullptr && node->key < node->parent->key)
+        {
+            cut(node, node->parent);
+            cascading_cut(node->parent);
+            if (node->key < root->key)
+            {
+                root = node;
+            }
+        }
+    }
 }
 
 template <typename T>
@@ -209,10 +222,20 @@ typename Fibonacci<T>::Node *Fibonacci<T>::merge(Node *parent, Node *child)
 }
 
 template <typename T>
-void Fibonacci<T>::insert(Node *where, Node *what)
+void Fibonacci<T>::insert(Node *parent, Node *child)
 {
-    where->left->right = what;
-    what->left = where->left;
-    where->left = what;
-    what->right = where;
+    parent->left->right = child;
+    child->left = parent->left;
+    parent->left = child;
+    child->right = parent;
+}
+
+template <typename T>
+void Fibonacci<T>::cut(Node *parent, Node *child)
+{
+}
+
+template <typename T>
+void Fibonacci<T>::cascading_cut(Node *parent)
+{
 }
