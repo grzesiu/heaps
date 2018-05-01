@@ -21,5 +21,7 @@ int main()
 
     std::cout << f.top()->get_key() << std::endl;
 
+    f.erase(nodes[99]);
+    std::cout << nodes[99]->get_key() << std::endl;
     return 0;
 }

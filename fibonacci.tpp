@@ -1,4 +1,5 @@
 #include <cmath>
+#include <limits>
 
 template <typename T>
 Fibonacci<T>::Fibonacci() : root(nullptr) {}
@@ -90,6 +91,13 @@ void Fibonacci<T>::decrease_priority(Node *node, T key)
             root = node;
         }
     }
+}
+
+template <typename T>
+void Fibonacci<T>::erase(Node *node)
+{
+    decrease_priority(node, std::numeric_limits<T>::min());
+    pop();
 }
 
 template <typename T>

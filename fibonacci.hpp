@@ -32,6 +32,7 @@ public:
   Node *push(T val);
   void pop();
   void decrease_priority(Node *node, T key);
+  void erase(Node *node);
 
 private:
   Node *root;
