@@ -5,21 +5,21 @@
 int main()
 {
     Fibonacci<int> f;
-    f.push(4);
+    Fibonacci<int>::Node **nodes = new Fibonacci<int>::Node *[100];
+
+    for (int i = 0; i < 100; i++)
+    {
+        nodes[i] = f.push(i);
+    }
     std::cout << f.top()->get_key() << std::endl;
+
+    f.decrease_priority(nodes[50], -1);
+
+    std::cout << f.top()->get_key() << std::endl;
+
     f.pop();
-    f.push(4);
-    f.push(2);
-    f.push(8);
-    f.push(10);
+
     std::cout << f.top()->get_key() << std::endl;
-    f.pop();
-    std::cout << f.top()->get_key() << std::endl;
-    f.pop();
-    std::cout << f.top()->get_key() << std::endl;
-    f.pop();
-    std::cout << f.top()->get_key() << std::endl;
-    f.pop();
-    std::cout << f.top()->get_key() << std::endl;
+
     return 0;
 }
