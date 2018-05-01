@@ -31,8 +31,9 @@ private:
   Node *root;
   unsigned int n = 0;
   void push(Node *node);
-  unsigned int max_degree() const;
+  unsigned int get_max_degree() const;
   void consolidate();
+  Node *merge(Node *parent, Node *child);
 };
 
 #include "fibonacci.tpp"
