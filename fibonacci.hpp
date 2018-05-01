@@ -38,7 +38,7 @@ private:
   Node *merge(Node *parent, Node *child);
   void insert(Node *parent, Node *child);
   void cut(Node *parent, Node *child);
-  void cascading_cut(Node *parent);
+  void cascading_cut(Node *node);
 };
 
 #include "fibonacci.tpp"

@@ -254,6 +254,18 @@ void Fibonacci<T>::cut(Node *parent, Node *child)
 }
 
 template <typename T>
-void Fibonacci<T>::cascading_cut(Node *parent)
+void Fibonacci<T>::cascading_cut(Node *node)
 {
+    if (node->parent != nullptr)
+    {
+        if (node->marked)
+        {
+            cut(node->parent, node);
+            cascading_cut(node->parent);
+        }
+        else
+        {
+            node->marked = true;
+        }
+    }
 }
