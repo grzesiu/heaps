@@ -270,3 +270,27 @@ T Fibonacci<T>::Node::get_key() const
 {
     return key;
 }
+
+template <typename T>
+typename Fibonacci<T>::Node *Fibonacci<T>::Node::get_parent() const
+{
+    return parent;
+}
+
+template <typename T>
+typename Fibonacci<T>::Node *Fibonacci<T>::Node::get_left() const
+{
+    return left;
+}
+
+template <typename T>
+typename Fibonacci<T>::Node *Fibonacci<T>::Node::get_right() const
+{
+    return right;
+}
+
+template <typename T>
+typename Fibonacci<T>::Node *Fibonacci<T>::Node::get_child() const
+{
+    return child;
+}

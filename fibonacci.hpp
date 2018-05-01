@@ -19,6 +19,10 @@ public:
   public:
     bool is_marked() const;
     T get_key() const;
+    Node *get_parent() const;
+    Node *get_left() const;
+    Node *get_right() const;
+    Node *get_child() const;
   };
   Fibonacci();
   Fibonacci(std::function<bool(T const &, T const &)> comp);
