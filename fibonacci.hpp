@@ -8,8 +8,6 @@ public:
   {
     friend class Fibonacci;
     T key;
-    bool is_marked() const;
-    bool get_key() const;
     bool marked = false;
     unsigned int degree = 0;
     Node(T key);
@@ -17,20 +15,24 @@ public:
     Node *left = nullptr;
     Node *right = nullptr;
     Node *child = nullptr;
+
+  public:
+    bool is_marked() const;
+    T get_key() const;
   };
   Fibonacci();
   Fibonacci(std::function<bool(T const &, T const &)> comp);
   bool empty() const;
   unsigned int size() const;
-  const T top() const;
-  void push(T val);
+  Node *top() const;
+  Node *push(T val);
   void pop();
-  void decrease_key(Node *node, T key);
+  void decrease_priority(Node *node, T key);
 
 private:
   Node *root;
   unsigned int n = 0;
-  void push(Node *node);
+  Node *push(Node *node);
   unsigned int get_max_degree() const;
   void consolidate();
   Node *merge(Node *parent, Node *child);

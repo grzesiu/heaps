@@ -21,16 +21,16 @@ unsigned int Fibonacci<T>::size() const
 }
 
 template <typename T>
-const T Fibonacci<T>::top() const
+typename Fibonacci<T>::Node *Fibonacci<T>::top() const
 {
-    return root->key;
+    return root;
 }
 
 template <typename T>
-void Fibonacci<T>::push(T key)
+typename Fibonacci<T>::Node *Fibonacci<T>::push(T key)
 {
     Node *node = new Node(key);
-    push(node);
+    return push(node);
 }
 
 template <typename T>
@@ -75,12 +75,12 @@ void Fibonacci<T>::pop()
 }
 
 template <typename T>
-void Fibonacci<T>::decrease_key(Node *node, T key)
+void Fibonacci<T>::decrease_priority(Node *node, T key)
 {
 }
 
 template <typename T>
-void Fibonacci<T>::push(Node *node)
+typename Fibonacci<T>::Node *Fibonacci<T>::push(Node *node)
 {
     if (root == nullptr)
     {
@@ -109,7 +109,7 @@ bool Fibonacci<T>::Node::is_marked() const
 }
 
 template <typename T>
-bool Fibonacci<T>::Node::get_key() const
+T Fibonacci<T>::Node::get_key() const
 {
     return key;
 }
