@@ -84,10 +84,10 @@ void Fibonacci<T>::decrease_priority(Node *node, T key)
         {
             cut(node, node->parent);
             cascading_cut(node->parent);
-            if (node->key < root->key)
-            {
-                root = node;
-            }
+        }
+        if (node->key < root->key)
+        {
+            root = node;
         }
     }
 }
@@ -110,21 +110,7 @@ typename Fibonacci<T>::Node *Fibonacci<T>::push(Node *node)
         }
     }
     ++n;
-}
-
-template <typename T>
-Fibonacci<T>::Node::Node(T key) : key(key) {}
-
-template <typename T>
-bool Fibonacci<T>::Node::is_marked() const
-{
-    return marked;
-}
-
-template <typename T>
-T Fibonacci<T>::Node::get_key() const
-{
-    return key;
+    return node;
 }
 
 template <typename T>
@@ -268,4 +254,19 @@ void Fibonacci<T>::cascading_cut(Node *node)
             node->marked = true;
         }
     }
+}
+
+template <typename T>
+Fibonacci<T>::Node::Node(T key) : key(key) {}
+
+template <typename T>
+bool Fibonacci<T>::Node::is_marked() const
+{
+    return marked;
+}
+
+template <typename T>
+T Fibonacci<T>::Node::get_key() const
+{
+    return key;
 }
