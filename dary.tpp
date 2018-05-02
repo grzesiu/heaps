@@ -22,7 +22,8 @@ int Dary<T>::size() const
 }
 
 template <typename T>
-T Dary<T>::top() const {
+T Dary<T>::top() const
+{
     return nodes.front();
 }
 
@@ -30,7 +31,12 @@ template <typename T>
 void Dary<T>::push(T val) {}
 
 template <typename T>
-void Dary<T>::pop() {}
+void Dary<T>::pop() 
+{
+    nodes[0] = nodes.back();
+    heapify(0);
+    nodes.pop_back();
+}
 
 template <typename T>
 void Dary<T>::heapify(int i)
