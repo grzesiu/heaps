@@ -3,16 +3,20 @@
 template <typename T>
 class Dary
 {
-    std::vector<T> nodes;
-    unsigned int d;
+  int d;
+  void heapify(int i);
+  int parent(int i);
+  int left(int i);
+  int right(int i);
 
-  public:
-    Dary(std::vector<T> nodes, unsigned int d);
-    bool empty() const;
-    unsigned int size() const;
-    T top() const;
-    void push(T val);
-    void pop();
+public:
+  std::vector<T> nodes;
+  Dary(const std::vector<T> &nodes, int d);
+  bool empty() const;
+  int size() const;
+  T top() const;
+  void push(T val);
+  void pop();
 };
 
 #include "dary.tpp"
