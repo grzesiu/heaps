@@ -17,6 +17,7 @@ public:
   T top() const;
   void push(T val);
   void pop();
+  void increase_priority(int i, T priority);
 };
 
 #include "dary.tpp"

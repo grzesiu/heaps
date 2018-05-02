@@ -28,10 +28,12 @@ T Dary<T>::top() const
 }
 
 template <typename T>
-void Dary<T>::push(T val) {}
+void Dary<T>::push(T val)
+{
+}
 
 template <typename T>
-void Dary<T>::pop() 
+void Dary<T>::pop()
 {
     nodes[0] = nodes.back();
     heapify(0);
@@ -73,4 +75,18 @@ template <typename T>
 int Dary<T>::right(int i)
 {
     return d * i + d;
+}
+
+template <typename T>
+void Dary<T>::increase_priority(int i, T priority)
+{
+    if (priority < nodes[i])
+    {
+        nodes[i] = priority;
+        while (i && nodes[i] < nodes[parent(i)])
+        {
+            std::swap(nodes[i], nodes[parent(i)]);
+            i = parent(i);
+        }
+    }
 }
