@@ -13,7 +13,7 @@ int main()
     }
     std::cout << f.top()->get_key() << std::endl;
 
-    f.decrease_priority(nodes[50], -1);
+    f.increase_priority(nodes[50], -1);
 
     std::cout << f.top()->get_key() << std::endl;
 

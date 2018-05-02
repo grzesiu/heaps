@@ -76,7 +76,7 @@ void Fibonacci<T>::pop()
 }
 
 template <typename T>
-void Fibonacci<T>::decrease_priority(Node *node, T key)
+void Fibonacci<T>::increase_priority(Node *node, T key)
 {
     if (key < node->key)
     {
@@ -96,7 +96,7 @@ void Fibonacci<T>::decrease_priority(Node *node, T key)
 template <typename T>
 void Fibonacci<T>::erase(Node *node)
 {
-    decrease_priority(node, std::numeric_limits<T>::min());
+    increase_priority(node, std::numeric_limits<T>::min());
     pop();
 }
 

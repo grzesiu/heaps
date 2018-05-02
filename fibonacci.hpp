@@ -31,7 +31,7 @@ public:
   Node *top() const;
   Node *push(T val);
   void pop();
-  void decrease_priority(Node *node, T key);
+  void increase_priority(Node *node, T key);
   void erase(Node *node);
 
 private:
