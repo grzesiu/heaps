@@ -2,47 +2,47 @@
 #include <limits>
 
 template <typename T>
-Fibonacci<T>::Fibonacci() : root(nullptr) {}
+Fibheap<T>::Fibheap() : root(nullptr) {}
 
 template <typename T>
-Fibonacci<T>::Fibonacci(std::function<bool(T const &, T const &)> comp) : root(nullptr)
+Fibheap<T>::Fibheap(std::function<bool(T const &, T const &)> comp) : root(nullptr)
 {
 }
 
 template <typename T>
-bool Fibonacci<T>::empty() const
+bool Fibheap<T>::empty() const
 {
     return false;
 }
 
 template <typename T>
-int Fibonacci<T>::size() const
+int Fibheap<T>::size() const
 {
     return n;
 }
 
 template <typename T>
-typename Fibonacci<T>::Node *Fibonacci<T>::top() const
+Fibnode<T> *Fibheap<T>::top() const
 {
     return root;
 }
 
 template <typename T>
-typename Fibonacci<T>::Node *Fibonacci<T>::push(T key)
+Fibnode<T> *Fibheap<T>::push(T key)
 {
-    Node *node = new Node(key);
+    Fibnode<T> *node = new Fibnode<T>(key);
     return push(node);
 }
 
 template <typename T>
-void Fibonacci<T>::pop()
+void Fibheap<T>::pop()
 {
     if (root != nullptr)
     {
-        Node *curr = root->child;
+        Fibnode<T> *curr = root->child;
         if (curr != nullptr)
         {
-            Node **children = new Node *[root->degree]();
+            Fibnode<T> **children = new Fibnode<T> *[root->degree]();
             for (int i = 0; i < root->degree; i++)
             {
                 children[i] = curr;
@@ -56,7 +56,7 @@ void Fibonacci<T>::pop()
             delete[] children;
         }
 
-        Node *old_root = root;
+        Fibnode<T> *old_root = root;
 
         if (root == root->right)
         {
@@ -76,7 +76,7 @@ void Fibonacci<T>::pop()
 }
 
 template <typename T>
-void Fibonacci<T>::increase_priority(Node *node, T key)
+void Fibheap<T>::increase_priority(Fibnode<T> *node, T key)
 {
     if (key < node->key)
     {
@@ -94,14 +94,14 @@ void Fibonacci<T>::increase_priority(Node *node, T key)
 }
 
 template <typename T>
-void Fibonacci<T>::erase(Node *node)
+void Fibheap<T>::erase(Fibnode<T> *node)
 {
     increase_priority(node, std::numeric_limits<T>::min());
     pop();
 }
 
 template <typename T>
-typename Fibonacci<T>::Node *Fibonacci<T>::push(Node *node)
+Fibnode<T> *Fibheap<T>::push(Fibnode<T> *node)
 {
     if (root == nullptr)
     {
@@ -122,7 +122,7 @@ typename Fibonacci<T>::Node *Fibonacci<T>::push(Node *node)
 }
 
 template <typename T>
-int Fibonacci<T>::get_max_degree() const
+int Fibheap<T>::get_max_degree() const
 {
     return static_cast<int>(
         std::ceil(std::log(static_cast<double>(n)) /
@@ -130,11 +130,11 @@ int Fibonacci<T>::get_max_degree() const
 }
 
 template <typename T>
-void Fibonacci<T>::consolidate()
+void Fibheap<T>::consolidate()
 {
     int max_degree = get_max_degree() + 1;
-    Node **nodes = new Node *[max_degree]();
-    Node *curr = root;
+    Fibnode<T> **nodes = new Fibnode<T> *[max_degree]();
+    Fibnode<T> *curr = root;
     int root_list_size = 0;
 
     do
@@ -143,7 +143,7 @@ void Fibonacci<T>::consolidate()
         curr = curr->left;
     } while (curr != root);
 
-    Node **root_list = new Node *[root_list_size];
+    Fibnode<T> **root_list = new Fibnode<T> *[root_list_size];
 
     for (int i = 0; i < root_list_size; i++)
     {
@@ -196,7 +196,7 @@ void Fibonacci<T>::consolidate()
 }
 
 template <typename T>
-typename Fibonacci<T>::Node *Fibonacci<T>::merge(Node *parent, Node *child)
+Fibnode<T> *Fibheap<T>::merge(Fibnode<T> *parent, Fibnode<T> *child)
 {
     child->right->left = child->left;
     child->left->right = child->right;
@@ -216,7 +216,7 @@ typename Fibonacci<T>::Node *Fibonacci<T>::merge(Node *parent, Node *child)
 }
 
 template <typename T>
-void Fibonacci<T>::insert(Node *parent, Node *child)
+void Fibheap<T>::insert(Fibnode<T> *parent, Fibnode<T> *child)
 {
     parent->left->right = child;
     child->left = parent->left;
@@ -225,7 +225,7 @@ void Fibonacci<T>::insert(Node *parent, Node *child)
 }
 
 template <typename T>
-void Fibonacci<T>::cut(Node *parent, Node *child)
+void Fibheap<T>::cut(Fibnode<T> *parent, Fibnode<T> *child)
 {
     if (child->left == child)
     {
@@ -248,7 +248,7 @@ void Fibonacci<T>::cut(Node *parent, Node *child)
 }
 
 template <typename T>
-void Fibonacci<T>::cascading_cut(Node *node)
+void Fibheap<T>::cascading_cut(Fibnode<T> *node)
 {
     if (node->parent != nullptr)
     {
@@ -262,43 +262,4 @@ void Fibonacci<T>::cascading_cut(Node *node)
             node->marked = true;
         }
     }
-}
-
-template <typename T>
-Fibonacci<T>::Node::Node(T key) : key(key) {}
-
-template <typename T>
-bool Fibonacci<T>::Node::is_marked() const
-{
-    return marked;
-}
-
-template <typename T>
-T Fibonacci<T>::Node::get_key() const
-{
-    return key;
-}
-
-template <typename T>
-typename Fibonacci<T>::Node *Fibonacci<T>::Node::get_parent() const
-{
-    return parent;
-}
-
-template <typename T>
-typename Fibonacci<T>::Node *Fibonacci<T>::Node::get_left() const
-{
-    return left;
-}
-
-template <typename T>
-typename Fibonacci<T>::Node *Fibonacci<T>::Node::get_right() const
-{
-    return right;
-}
-
-template <typename T>
-typename Fibonacci<T>::Node *Fibonacci<T>::Node::get_child() const
-{
-    return child;
 }

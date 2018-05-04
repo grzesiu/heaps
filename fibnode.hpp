@@ -1,10 +1,14 @@
 #pragma once
 
 #include "node.hpp"
+#include "fibheap.hpp"
 
 template <typename T>
 class Fibnode : public Node<T>
 {
+  template <typename>
+  friend class Fibheap;
+
 public:
   Fibnode(T key);
   bool is_marked() const;
