@@ -14,7 +14,7 @@ public:
   bool empty() const;
   int size() const;
   Fibnode<T> *top() const;
-  Fibnode<T> *push(T key);
+  void push(Fibnode<T> *node);
   void pop();
   void increase_priority(Fibnode<T> *node, T key);
   void erase(Fibnode<T> *node);
@@ -22,7 +22,6 @@ public:
 private:
   Fibnode<T> *root;
   int n = 0;
-  Fibnode<T> *push(Fibnode<T> *node);
   int get_max_degree() const;
   void consolidate();
   Fibnode<T> *merge(Fibnode<T> *parent, Fibnode<T> *child);

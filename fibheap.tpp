@@ -28,10 +28,23 @@ Fibnode<T> *Fibheap<T>::top() const
 }
 
 template <typename T>
-Fibnode<T> *Fibheap<T>::push(T key)
+void Fibheap<T>::push(Fibnode<T> *node)
 {
-    Fibnode<T> *node = new Fibnode<T>(key);
-    return push(node);
+    if (root == nullptr)
+    {
+        root = node;
+        node->left = node;
+        node->right = node;
+    }
+    else
+    {
+        insert(root, node);
+        if (node->key < root->key)
+        {
+            root = node;
+        }
+    }
+    ++n;
 }
 
 template <typename T>
@@ -98,27 +111,6 @@ void Fibheap<T>::erase(Fibnode<T> *node)
 {
     increase_priority(node, std::numeric_limits<T>::min());
     pop();
-}
-
-template <typename T>
-Fibnode<T> *Fibheap<T>::push(Fibnode<T> *node)
-{
-    if (root == nullptr)
-    {
-        root = node;
-        node->left = node;
-        node->right = node;
-    }
-    else
-    {
-        insert(root, node);
-        if (node->key < root->key)
-        {
-            root = node;
-        }
-    }
-    ++n;
-    return node;
 }
 
 template <typename T>

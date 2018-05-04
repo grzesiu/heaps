@@ -5,11 +5,12 @@
 int main()
 {
     Fibheap<int> f;
-    Fibnode<int> **nodes = new Fibnode<int> *[100];
+    Fibnode<int> *nodes[100];
 
     for (int i = 0; i < 100; i++)
     {
-        nodes[i] = f.push(i);
+        nodes[i] = new Fibnode<int>(i);
+        f.push(nodes[i]);
     }
     std::cout << f.top()->get_key() << std::endl;
 
