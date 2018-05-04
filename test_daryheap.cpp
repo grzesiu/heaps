@@ -1,12 +1,12 @@
 #include <iostream>
 #include <vector>
 
-#include "dary.hpp"
+#include "daryheap.hpp"
 
 int main()
 {
     std::vector<int> nodes = {6, 3, 1, 4, 5, 2};
-    Dary<int> d(nodes, 3);
+    Daryheap<int> d(nodes, 3);
     while (!d.empty())
     {
         std::cout << d.top() << std::endl;
