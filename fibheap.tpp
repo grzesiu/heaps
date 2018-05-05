@@ -162,6 +162,7 @@ void Fibheap<T>::consolidate()
         nodes[curr->degree] = curr;
     }
 
+    delete[] root_list;
     root = nullptr;
 
     for (int i = 0; i < max_degree; i++)

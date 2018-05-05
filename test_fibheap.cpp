@@ -24,5 +24,11 @@ int main()
 
     f.erase(nodes[99]);
     std::cout << nodes[99]->get_key() << std::endl;
+
+    for (int i = 0; i < 100; i++)
+    {
+        delete nodes[i];
+    }
+    
     return 0;
 }
