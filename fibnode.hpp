@@ -3,14 +3,14 @@
 #include "node.hpp"
 #include "fibheap.hpp"
 
-template <typename T>
-class Fibnode : public Node<T>
+template <typename I, typename K>
+class Fibnode : public Node<I, K>
 {
-  template <typename>
+  template <typename, typename>
   friend class Fibheap;
 
 public:
-  Fibnode(T key);
+  Fibnode(I id, K key);
   bool is_marked() const;
 
 private:

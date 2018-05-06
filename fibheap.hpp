@@ -1,33 +1,36 @@
 #pragma once
 
 #include <functional>
+#include <map>
+#include <utility>
 
 #include "heap.hpp"
 #include "fibnode.hpp"
 
-template <typename T>
-class Fibheap : public Heap<Fibnode<T>, T>
+template <typename I, typename K>
+class Fibheap : public Heap<Fibnode<I, K>, I, K>
 {
 public:
   Fibheap();
-  Fibheap(std::function<bool(T const &, T const &)> comp);
+  Fibheap(std::function<bool(K const &, K const &)> comp);
+  ~Fibheap();
   bool empty() const;
   int size() const;
-  Fibnode<T> *top() const;
-  void push(Fibnode<T> *node);
+  std::pair<I, K> top() const;
+  void push(I id, K key);
   void pop();
-  void increase_priority(Fibnode<T> *node, T key);
-  void erase(Fibnode<T> *node);
+  void increase_priority(I id, K key);
+  void erase(I id);
 
 private:
-  Fibnode<T> *root;
-  int n = 0;
+  std::map<I, Fibnode<I, K> *> nodes;
+  Fibnode<I, K> *root;
   int get_max_degree() const;
   void consolidate();
-  Fibnode<T> *merge(Fibnode<T> *parent, Fibnode<T> *child);
-  void insert(Fibnode<T> *parent, Fibnode<T> *child);
-  void cut(Fibnode<T> *parent, Fibnode<T> *child);
-  void cascading_cut(Fibnode<T> *node);
+  Fibnode<I, K> *merge(Fibnode<I, K> *parent, Fibnode<I, K> *child);
+  void insert(Fibnode<I, K> *parent, Fibnode<I, K> *child);
+  void cut(Fibnode<I, K> *parent, Fibnode<I, K> *child);
+  void cascading_cut(Fibnode<I, K> *node);
 };
 
 #include "fibheap.tpp"

@@ -1,35 +1,47 @@
 #include <cmath>
 #include <limits>
 
-template <typename T>
-Fibheap<T>::Fibheap() : root(nullptr) {}
+template <typename I, typename K>
+Fibheap<I, K>::Fibheap() : root(nullptr) {}
 
-template <typename T>
-Fibheap<T>::Fibheap(std::function<bool(T const &, T const &)> comp) : root(nullptr)
+template <typename I, typename K>
+Fibheap<I, K>::Fibheap(std::function<bool(K const &, K const &)> comp) : root(nullptr)
 {
 }
 
-template <typename T>
-bool Fibheap<T>::empty() const
+template <typename I, typename K>
+Fibheap<I, K>::~Fibheap()
+{
+    for (auto i : nodes)
+    {
+        delete i.second;
+    }
+}
+
+template <typename I, typename K>
+bool Fibheap<I, K>::empty() const
 {
     return false;
 }
 
-template <typename T>
-int Fibheap<T>::size() const
+template <typename I, typename K>
+int Fibheap<I, K>::size() const
 {
-    return n;
+    return nodes.size();
 }
 
-template <typename T>
-Fibnode<T> *Fibheap<T>::top() const
+template <typename I, typename K>
+std::pair<I, K> Fibheap<I, K>::top() const
 {
-    return root;
+    return std::make_pair(root->id, root->key);
 }
 
-template <typename T>
-void Fibheap<T>::push(Fibnode<T> *node)
+template <typename I, typename K>
+void Fibheap<I, K>::push(I id, K key)
 {
+    Fibnode<I, K> *node = new Fibnode<I, K>(id, key);
+    nodes[id] = node;
+
     if (root == nullptr)
     {
         root = node;
@@ -44,18 +56,17 @@ void Fibheap<T>::push(Fibnode<T> *node)
             root = node;
         }
     }
-    ++n;
 }
 
-template <typename T>
-void Fibheap<T>::pop()
+template <typename I, typename K>
+void Fibheap<I, K>::pop()
 {
     if (root != nullptr)
     {
-        Fibnode<T> *curr = root->child;
+        Fibnode<I, K> *curr = root->child;
         if (curr != nullptr)
         {
-            Fibnode<T> **children = new Fibnode<T> *[root->degree]();
+            Fibnode<I, K> **children = new Fibnode<I, K> *[root->degree]();
             for (int i = 0; i < root->degree; i++)
             {
                 children[i] = curr;
@@ -69,7 +80,7 @@ void Fibheap<T>::pop()
             delete[] children;
         }
 
-        Fibnode<T> *old_root = root;
+        Fibnode<I, K> *old_root = root;
 
         if (root == root->right)
         {
@@ -82,15 +93,15 @@ void Fibheap<T>::pop()
             root = root->right;
             consolidate();
         }
-
+        nodes.erase(old_root->id);
         delete old_root;
-        n--;
     }
 }
 
-template <typename T>
-void Fibheap<T>::increase_priority(Fibnode<T> *node, T key)
+template <typename I, typename K>
+void Fibheap<I, K>::increase_priority(I id, K key)
 {
+    Fibnode<I, K> *node = nodes[id];
     if (key < node->key)
     {
         node->key = key;
@@ -106,27 +117,27 @@ void Fibheap<T>::increase_priority(Fibnode<T> *node, T key)
     }
 }
 
-template <typename T>
-void Fibheap<T>::erase(Fibnode<T> *node)
+template <typename I, typename K>
+void Fibheap<I, K>::erase(I id)
 {
-    increase_priority(node, std::numeric_limits<T>::min());
+    increase_priority(id, std::numeric_limits<K>::min());
     pop();
 }
 
-template <typename T>
-int Fibheap<T>::get_max_degree() const
+template <typename I, typename K>
+int Fibheap<I, K>::get_max_degree() const
 {
     return static_cast<int>(
-        std::ceil(std::log(static_cast<double>(n)) /
+        std::ceil(std::log(static_cast<double>(size())) /
                   std::log(static_cast<double>(1 + std::sqrt(static_cast<double>(5))) / 2)));
 }
 
-template <typename T>
-void Fibheap<T>::consolidate()
+template <typename I, typename K>
+void Fibheap<I, K>::consolidate()
 {
     int max_degree = get_max_degree() + 1;
-    Fibnode<T> **nodes = new Fibnode<T> *[max_degree]();
-    Fibnode<T> *curr = root;
+    Fibnode<I, K> **nodes = new Fibnode<I, K> *[max_degree]();
+    Fibnode<I, K> *curr = root;
     int root_list_size = 0;
 
     do
@@ -135,7 +146,7 @@ void Fibheap<T>::consolidate()
         curr = curr->left;
     } while (curr != root);
 
-    Fibnode<T> **root_list = new Fibnode<T> *[root_list_size];
+    Fibnode<I, K> **root_list = new Fibnode<I, K> *[root_list_size];
 
     for (int i = 0; i < root_list_size; i++)
     {
@@ -188,8 +199,8 @@ void Fibheap<T>::consolidate()
     delete[] nodes;
 }
 
-template <typename T>
-Fibnode<T> *Fibheap<T>::merge(Fibnode<T> *parent, Fibnode<T> *child)
+template <typename I, typename K>
+Fibnode<I, K> *Fibheap<I, K>::merge(Fibnode<I, K> *parent, Fibnode<I, K> *child)
 {
     child->right->left = child->left;
     child->left->right = child->right;
@@ -208,8 +219,8 @@ Fibnode<T> *Fibheap<T>::merge(Fibnode<T> *parent, Fibnode<T> *child)
     return parent;
 }
 
-template <typename T>
-void Fibheap<T>::insert(Fibnode<T> *parent, Fibnode<T> *child)
+template <typename I, typename K>
+void Fibheap<I, K>::insert(Fibnode<I, K> *parent, Fibnode<I, K> *child)
 {
     parent->left->right = child;
     child->left = parent->left;
@@ -217,8 +228,8 @@ void Fibheap<T>::insert(Fibnode<T> *parent, Fibnode<T> *child)
     child->right = parent;
 }
 
-template <typename T>
-void Fibheap<T>::cut(Fibnode<T> *parent, Fibnode<T> *child)
+template <typename I, typename K>
+void Fibheap<I, K>::cut(Fibnode<I, K> *parent, Fibnode<I, K> *child)
 {
     if (child->left == child)
     {
@@ -240,8 +251,8 @@ void Fibheap<T>::cut(Fibnode<T> *parent, Fibnode<T> *child)
     child->marked = false;
 }
 
-template <typename T>
-void Fibheap<T>::cascading_cut(Fibnode<T> *node)
+template <typename I, typename K>
+void Fibheap<I, K>::cascading_cut(Fibnode<I, K> *node)
 {
     if (node->parent != nullptr)
     {
