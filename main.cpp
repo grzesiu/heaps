@@ -3,6 +3,9 @@
 #include <random>
 #include <utility>
 
+#include "dijkstra.hpp"
+#include "fibheap.hpp"
+
 std::map<int, std::map<int, int>> generate_random_graph(int v, int e, int max_distance, bool undirected)
 {
     if (undirected)
@@ -41,21 +44,25 @@ std::map<int, std::map<int, int>> generate_random_graph(int v, int e, int max_di
     return graph;
 }
 
-int main()
+void print(const std::map<int, std::map<int, int>> &graph)
 {
-    int v = 10;
-    int e = 20;
-    int d = 100;
-    std::map<int, std::map<int, int>> graph = generate_random_graph(v, e, d, true);
-
     for (auto i : graph)
     {
         std::cout << i.first << ": ";
-
         for (auto j : i.second)
         {
             std::cout << j.first << ":" << j.second << ", ";
         }
         std::cout << std::endl;
     }
+}
+
+int main()
+{
+    int v = 10;
+    int e = 20;
+    int d = 100;
+    std::map<int, std::map<int, int>> graph = generate_random_graph(v, e, d, true);
+    Dijkstra<Fibheap, int, int> dijkstra(graph, 0, std::numeric_limits<int>::max());
+    return 0;
 }
