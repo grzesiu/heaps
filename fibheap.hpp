@@ -2,7 +2,6 @@
 
 #include <functional>
 #include <map>
-#include <utility>
 
 #include "heap.hpp"
 #include "fibnode.hpp"

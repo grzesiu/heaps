@@ -1,9 +1,5 @@
 #pragma once
 
-#include <iostream>
-
-#include "node.hpp"
-
 template <typename N, typename I, typename K>
 class Heap
 {
