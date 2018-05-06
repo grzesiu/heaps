@@ -1,8 +1,14 @@
-template <typename T>
-Node<T>::Node(T key) : key(key) {}
+template <typename I, typename K>
+Node<I, K>::Node(I id, K key) : id(id), key(key) {}
 
-template <typename T>
-T Node<T>::get_key() const
+template <typename I, typename K>
+I Node<I, K>::get_id() const
+{
+    return id;
+}
+
+template <typename I, typename K>
+K Node<I, K>::get_key() const
 {
     return key;
 }

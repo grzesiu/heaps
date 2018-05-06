@@ -1,14 +1,16 @@
 #pragma once
 
-template <typename T>
+template <typename I, typename K>
 class Node
 {
 public:
-  Node(T key);
-  T get_key() const;
+  Node(I id, K key);
+  I get_id() const;
+  K get_key() const;
 
 protected:
-  T key;
+  I id;
+  K key;
 };
 
 #include "node.tpp"
