@@ -1,7 +1,7 @@
 #include <algorithm>
 
-template <typename T>
-Daryheap<T>::Daryheap(const std::vector<Darynode<T> *> nodes, int d) : nodes(nodes), d(d)
+template <typename I, typename K>
+Daryheap<I, K>::Daryheap(const std::vector<Darynode<I, K>> &nodes, int d) : nodes(nodes), d(d)
 {
     for (int i = (size() - 2) / d; i >= 0; i--)
     {
@@ -9,98 +9,98 @@ Daryheap<T>::Daryheap(const std::vector<Darynode<T> *> nodes, int d) : nodes(nod
     }
 }
 
-template <typename T>
-bool Daryheap<T>::empty() const
+template <typename I, typename K>
+bool Daryheap<I, K>::empty() const
 {
     return nodes.empty();
 }
 
-template <typename T>
-int Daryheap<T>::size() const
+template <typename I, typename K>
+int Daryheap<I, K>::size() const
 {
     return nodes.size();
 }
 
-template <typename T>
-Darynode<T> *Daryheap<T>::top() const
+template <typename I, typename K>
+std::pair<I, K> Daryheap<I, K>::top() const
 {
-    return nodes.front();
+    return std::make_pair(nodes.front().id, nodes.front().key);
 }
 
-template <typename T>
-void Daryheap<T>::push(Darynode<T> *node)
+template <typename I, typename K>
+void Daryheap<I, K>::push(I id, K key)
 {
 }
 
-template <typename T>
-void Daryheap<T>::pop()
+template <typename I, typename K>
+void Daryheap<I, K>::pop()
 {
-    delete nodes[0];
+    indices.erase(nodes[0].id);
     nodes[0] = nodes.back();
-    nodes[0]->i = 0;
-    heapify(0);
     nodes.pop_back();
+    indices[nodes[0].id] = 0;
+    heapify(0);
 }
 
-template <typename T>
-void Daryheap<T>::heapify(int i)
+template <typename I, typename K>
+void Daryheap<I, K>::heapify(int i)
 {
     int root = i;
     int end = std::min(right_index(i), size() - 1);
     for (int j = left_index(i); j <= end; j++)
     {
-        if (nodes[j]->key < nodes[root]->key)
+        if (nodes[j].key < nodes[root].key)
         {
             root = j;
         }
     }
     if (root != i)
     {
-        swap_indices(i, root);
+        swap(i, root);
         heapify(root);
     }
 }
 
-template <typename T>
-void Daryheap<T>::increase_priority(Darynode<T> *node, T key)
+template <typename I, typename K>
+void Daryheap<I, K>::increase_priority(I id, K key)
 {
-    if (key < node->key)
+    if (key < nodes[indices[id]].key)
     {
-        node->key = key;
-        while (node->i && node->key < nodes[parent_index(node->i)]->key)
+        nodes[indices[id]].key = key;
+        while (indices[id] && nodes[indices[id]].key < nodes[parent_index(indices[id])].key)
         {
-            swap_indices(node->i, parent_index(node->i));
-            node = nodes[parent_index(node->i)];
+            swap(indices[id], parent_index(indices[id]));
+            id = parent_index(indices[id]);
         }
     }
 }
 
-template <typename T>
-void Daryheap<T>::erase(Darynode<T> *node)
+template <typename I, typename K>
+void Daryheap<I, K>::erase(I id)
 {
 }
 
-template <typename T>
-int Daryheap<T>::parent_index(int i)
+template <typename I, typename K>
+int Daryheap<I, K>::parent_index(int i)
 {
     return (i - 1) / d;
 }
 
-template <typename T>
-int Daryheap<T>::left_index(int i)
+template <typename I, typename K>
+int Daryheap<I, K>::left_index(int i)
 {
     return d * i + 1;
 }
 
-template <typename T>
-int Daryheap<T>::right_index(int i)
+template <typename I, typename K>
+int Daryheap<I, K>::right_index(int i)
 {
     return d * i + d;
 }
 
-template <typename T>
-void Daryheap<T>::swap_indices(int i, int j)
+template <typename I, typename K>
+void Daryheap<I, K>::swap(int i, int j)
 {
-    std::swap(nodes[i]->i, nodes[j]->i);
     std::swap(nodes[i], nodes[j]);
+    std::swap(indices[nodes[i].id], indices[nodes[j].id]);
 }

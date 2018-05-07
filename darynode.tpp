@@ -1,2 +1,2 @@
-template <typename T>
-Darynode<T>::Darynode(T key, int i) : Node<T>::Node(key), i(i) {}
+template <typename I, typename K>
+Darynode<I, K>::Darynode(I id, K key) : Node<I, K>::Node(id, key) {}

@@ -1,31 +1,34 @@
 #pragma once
 
 #include <vector>
+#include <map>
+#include <utility>
 
 #include "heap.hpp"
 #include "darynode.hpp"
 
-template <typename T>
-class Daryheap : public Heap<Darynode<T>, T>
+template <typename I, typename K>
+class Daryheap : public Heap<Darynode<I, K>, I, K>
 {
 public:
-  Daryheap(const std::vector<Darynode<T> *> nodes, int d);
+  Daryheap(const std::vector<Darynode<I, K>> &nodes, int d);
   bool empty() const;
   int size() const;
-  Darynode<T> *top() const;
-  void push(Darynode<T> *node);
+  std::pair<I, K> top() const;
+  void push(I id, K key);
   void pop();
-  void increase_priority(Darynode<T> *node, T key);
-  void erase(Darynode<T> *node);
+  void increase_priority(I id, K key);
+  void erase(I id);
 
 private:
   int d;
-  std::vector<Darynode<T> *> nodes;
+  std::map<I, int> indices;
+  std::vector<Darynode<I, K>> nodes;
   void heapify(int i);
   int parent_index(int i);
   int left_index(int i);
   int right_index(int i);
-  void swap_indices(int i, int j);
+  void swap(int i, int j);
 };
 
 #include "daryheap.tpp"

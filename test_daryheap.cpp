@@ -6,17 +6,17 @@
 int main()
 {
 
-    std::vector<Darynode<int> *> nodes(100);
+    std::vector<Darynode<int, int>> nodes;
     for (int i = 99; i >= 0; i--)
     {
-        nodes[i] = new Darynode<int>(i, 99 - i);
+        nodes.push_back(Darynode<int, int>(i, i));
     }
 
-    Daryheap<int> d(nodes, 3);
+    Daryheap<int, int> d(nodes, 3);
 
-    while (!d.empty())
+    for (int i = 0; i < 100; i++)
     {
-        std::cout << d.top()->get_key() << std::endl;
+        std::cout << d.top().first << " " << d.top().second << std::endl;
         d.pop();
     }
 
