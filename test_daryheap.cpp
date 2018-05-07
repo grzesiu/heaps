@@ -17,7 +17,7 @@ int main() {
         d.pop();
     }
 
-    d.increase_priority(0, -1);
+    d.increase_priority(80, -1);
 
     while (!d.empty()) {
         std::cout << d.top().first << " " << d.top().second << std::endl;

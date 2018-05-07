@@ -2,6 +2,9 @@
 
 template<typename I, typename K>
 Daryheap<I, K>::Daryheap(const std::vector <Darynode<I, K>> &nodes, int d) : nodes(nodes), d(d) {
+    for (int i = 0; i < nodes.size(); i++) {
+        indices[nodes[i].id] = i;
+    }
     for (int i = (size() - 2) / d; i >= 0; i--) {
         heapify(i);
     }
@@ -56,7 +59,6 @@ void Daryheap<I, K>::increase_priority(I id, K key) {
         nodes[indices[id]].key = key;
         while (indices[id] && nodes[indices[id]].key < nodes[parent_index(indices[id])].key) {
             swap(indices[id], parent_index(indices[id]));
-            id = parent_index(indices[id]);
         }
     }
 }
