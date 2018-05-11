@@ -1,11 +1,14 @@
 #include <limits>
+#include <set>
 
 template<template<typename, typename> typename H, typename I, typename K>
-Dijkstra<H, I, K>::Dijkstra(const std::map <I, std::map<I, K>> &graph, I start, K max) {
-    std::map <I, K> distances;
-    for (auto i : graph) {
-        distances[i.first] = max;
+Dijkstra<H, I, K>::Dijkstra(const std::map <I, std::map<I, K>> &graph, H<I, K> h, I start, K max) : h(h) {
+    std::set <I> ids;
+    for (auto nodes_map: graph) {
+        for (auto node : nodes_map.second) {
+            ids.insert(node.first);
+        }
     }
-    distances[start] = 0;
-    heap = H<I, K>();
+    ids.erase(start);
+    h.create(ids, max);
 }

@@ -53,6 +53,6 @@ int main() {
     int e = 20;
     int d = 100;
     std::map<int, std::map<int, int>> graph = generate_random_graph(v, e, d, true);
-    Dijkstra<Fibheap, int, int> dijkstra(graph, 0, std::numeric_limits<int>::max());
+    Dijkstra<Fibheap, int, int> dijkstra(graph, Fibheap<int, int>(), 0, std::numeric_limits<int>::max());
     return 0;
 }
