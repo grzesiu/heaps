@@ -21,6 +21,8 @@ public:
 
     std::pair <I, K> top() const;
 
+    void create(const std::set <I> &ids, K max);
+
     void push(I id, K key);
 
     void pop();

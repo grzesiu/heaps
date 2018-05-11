@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <map>
-#include <utility>
 
 #include "heap.hpp"
 #include "darynode.hpp"
@@ -10,13 +9,15 @@
 template<typename I, typename K>
 class Daryheap : public Heap<Darynode<I, K>, I, K> {
 public:
-    Daryheap(const std::vector <Darynode<I, K>> &nodes, int d);
+    Daryheap(int d);
 
     bool empty() const;
 
     int size() const;
 
     std::pair <I, K> top() const;
+
+    void create(const std::set <I> &ids, K max);
 
     void push(I id, K key);
 

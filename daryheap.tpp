@@ -1,13 +1,7 @@
 #include <algorithm>
 
 template<typename I, typename K>
-Daryheap<I, K>::Daryheap(const std::vector <Darynode<I, K>> &nodes, int d) : nodes(nodes), d(d) {
-    for (int i = 0; i < nodes.size(); i++) {
-        indices[nodes[i].id] = i;
-    }
-    for (int i = (size() - 2) / d; i >= 0; i--) {
-        heapify(i);
-    }
+Daryheap<I, K>::Daryheap(int d) : d(d) {
 }
 
 template<typename I, typename K>
@@ -23,6 +17,14 @@ int Daryheap<I, K>::size() const {
 template<typename I, typename K>
 std::pair <I, K> Daryheap<I, K>::top() const {
     return std::make_pair(nodes.front().id, nodes.front().key);
+}
+
+template<typename I, typename K>
+void Daryheap<I, K>::create(const std::set <I> &ids, K max) {
+    nodes.reserve(ids.size());
+    for (auto id :ids) {
+        push(Darynode<I, K>(id, max));
+    }
 }
 
 template<typename I, typename K>

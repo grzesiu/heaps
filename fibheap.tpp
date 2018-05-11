@@ -31,6 +31,13 @@ std::pair <I, K> Fibheap<I, K>::top() const {
 }
 
 template<typename I, typename K>
+void Fibheap<I, K>::create(const std::set <I> &ids, K max) {
+    for (auto id:ids) {
+        push(id, max);
+    }
+};
+
+template<typename I, typename K>
 void Fibheap<I, K>::push(I id, K key) {
     Fibnode <I, K> *node = new Fibnode<I, K>(id, key);
     nodes[id] = node;
