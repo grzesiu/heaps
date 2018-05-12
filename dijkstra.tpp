@@ -19,7 +19,7 @@ Dijkstra<H, I, K>::Dijkstra(const std::unordered_map <I, std::unordered_map<I, K
 
     std::map <I, K> distances;
     distances[start] = min;
-
+    std::cout << start << std::endl;
     while (!h.empty()) {
         for (auto node : graph.at(current)) {
             if (!distances.count(node.first) && distances[current] != max) {

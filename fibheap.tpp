@@ -213,10 +213,11 @@ void Fibheap<I, K>::cut(Fibnode <I, K> *parent, Fibnode <I, K> *child) {
 
 template<typename I, typename K>
 void Fibheap<I, K>::cascading_cut(Fibnode <I, K> *node) {
-    if (node->parent != nullptr) {
+    Fibnode <I, K> *parent = node->parent;
+    if (parent != nullptr) {
         if (node->marked) {
-            cut(node->parent, node);
-            cascading_cut(node->parent);
+            cut(parent, node);
+            cascading_cut(parent);
         } else {
             node->marked = true;
         }
