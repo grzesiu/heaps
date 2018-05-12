@@ -17,7 +17,7 @@ Fibheap<I, K>::~Fibheap() {
 
 template<typename I, typename K>
 bool Fibheap<I, K>::empty() const {
-    return false;
+    return nodes.empty();
 }
 
 template<typename I, typename K>
