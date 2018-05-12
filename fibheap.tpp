@@ -1,3 +1,4 @@
+#include <iostream>
 #include <cmath>
 #include <limits>
 
@@ -91,9 +92,10 @@ void Fibheap<I, K>::increase_priority(I id, K key) {
     Fibnode <I, K> *node = nodes[id];
     if (key < node->key) {
         node->key = key;
-        if (node->parent != nullptr && node->key < node->parent->key) {
-            cut(node, node->parent);
-            cascading_cut(node->parent);
+        Fibnode <I, K> *parent = node->parent;
+        if (parent != 0 && node->key < parent->key) {
+            cut(parent, node);
+            cascading_cut(parent);
         }
         if (node->key < root->key) {
             root = node;
@@ -117,7 +119,7 @@ int Fibheap<I, K>::get_max_degree() const {
 template<typename I, typename K>
 void Fibheap<I, K>::consolidate() {
     int max_degree = get_max_degree() + 1;
-    Fibnode <I, K> **nodes = new Fibnode <I, K> *[max_degree]();
+    Fibnode <I, K> **nodes_degree_list = new Fibnode <I, K> *[max_degree]();
     Fibnode <I, K> *curr = root;
     int root_list_size = 0;
 
@@ -135,36 +137,36 @@ void Fibheap<I, K>::consolidate() {
 
     for (int i = 0; i < root_list_size; i++) {
         curr = root_list[i];
-        while (nodes[curr->degree] != nullptr) {
-            if (curr->key < nodes[curr->degree]->key) {
-                curr = merge(curr, nodes[curr->degree]);
+        while (nodes_degree_list[curr->degree] != nullptr) {
+            if (curr->key < nodes_degree_list[curr->degree]->key) {
+                curr = merge(curr, nodes_degree_list[curr->degree]);
             } else {
-                curr = merge(nodes[curr->degree], curr);
+                curr = merge(nodes_degree_list[curr->degree], curr);
             }
-            nodes[curr->degree] = nullptr;
+            nodes_degree_list[curr->degree] = nullptr;
             curr->degree++;
         }
-        nodes[curr->degree] = curr;
+        nodes_degree_list[curr->degree] = curr;
     }
 
     delete[] root_list;
     root = nullptr;
 
     for (int i = 0; i < max_degree; i++) {
-        if (nodes[i] != nullptr) {
+        if (nodes_degree_list[i] != nullptr) {
             if (root == nullptr) {
-                root = nodes[i];
-                root->left = nodes[i];
-                root->right = nodes[i];
+                root = nodes_degree_list[i];
+                root->left = nodes_degree_list[i];
+                root->right = nodes_degree_list[i];
             } else {
-                insert(root, nodes[i]);
-                if (nodes[i]->key < root->key) {
-                    root = nodes[i];
+                insert(root, nodes_degree_list[i]);
+                if (nodes_degree_list[i]->key < root->key) {
+                    root = nodes_degree_list[i];
                 }
             }
         }
     }
-    delete[] nodes;
+    delete[] nodes_degree_list;
 }
 
 template<typename I, typename K>
