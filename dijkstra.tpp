@@ -7,6 +7,7 @@ Dijkstra<H, I, K>::Dijkstra(const std::unordered_map <I, std::unordered_map<I, K
                             H<I, K> h, I start, K min, K max): h(h) {
     std::set <I> ids;
     for (auto nodes_map: graph) {
+        ids.insert(nodes_map.first);
         for (auto node : nodes_map.second) {
             ids.insert(node.first);
         }
@@ -21,7 +22,7 @@ Dijkstra<H, I, K>::Dijkstra(const std::unordered_map <I, std::unordered_map<I, K
 
     while (!h.empty()) {
         for (auto node : graph.at(current)) {
-            if (!distances.count(node.first)) {
+            if (!distances.count(node.first) && distances[current] != max) {
                 h.increase_priority(node.first, distances[current] + node.second);
             }
         }
