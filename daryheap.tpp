@@ -23,7 +23,10 @@ template<typename I, typename K>
 void Daryheap<I, K>::create(const std::set <I> &ids, K max) {
     nodes.reserve(ids.size());
     for (auto id :ids) {
-        push(Darynode<I, K>(id, max));
+        nodes.push_back(Darynode<I, K>(id, max));
+    }
+    for (int i = (size() - 2) / d; i >= 0; i--) {
+        heapify(i);
     }
 }
 

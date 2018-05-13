@@ -1,10 +1,13 @@
 #include <iostream>
+#include <limits>
 #include <random>
+#include <set>
 #include <unordered_map>
 #include <utility>
 
-#include "dijkstra.hpp"
 #include "fibheap.hpp"
+#include "daryheap.hpp"
+#include "dijkstra.hpp"
 
 std::unordered_map<int, std::unordered_map<int, int>>
 generate_random_graph(int v, int e, int max_distance, bool undirected) {
@@ -60,7 +63,7 @@ int main() {
     int d = 100;
     std::unordered_map<int, std::unordered_map<int, int>> graph = generate_random_graph(v, e, d, true);
     print(graph);
-    Dijkstra<Fibheap, int, int> dijkstra(graph, Fibheap<int, int>(), graph.begin()->first, 0,
-                                         std::numeric_limits<int>::max());
+    Dijkstra<Daryheap, int, int> dijkstra(graph, Daryheap<int, int>(2), graph.begin()->first, 0,
+                                          std::numeric_limits<int>::max());
     return 0;
 }
