@@ -7,7 +7,7 @@
 #include "fibnode.hpp"
 
 template<typename I, typename K>
-class Fibheap : public Heap<Fibnode<I, K>, I, K> {
+class Fibheap : public Heap<I, K> {
 public:
     Fibheap();
 

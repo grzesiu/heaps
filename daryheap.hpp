@@ -7,7 +7,7 @@
 #include "darynode.hpp"
 
 template<typename I, typename K>
-class Daryheap : public Heap<Darynode<I, K>, I, K> {
+class Daryheap : public Heap<I, K> {
 public:
     Daryheap(int d);
 

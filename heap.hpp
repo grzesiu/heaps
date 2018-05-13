@@ -3,7 +3,7 @@
 #include <set>
 #include <utility>
 
-template<typename N, typename I, typename K>
+template<typename I, typename K>
 class Heap {
 public:
     virtual bool empty() const = 0;
