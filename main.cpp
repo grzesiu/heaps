@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <limits>
 #include <random>
@@ -9,40 +10,37 @@
 #include "daryheap.hpp"
 #include "dijkstra.hpp"
 
-std::unordered_map<int, std::unordered_map<int, int>>
-generate_random_graph(int v, int e, int max_distance, bool undirected) {
-    if (undirected) {
-        e /= 2;
-    }
-    std::unordered_map<int, std::unordered_map<int, int>> graph;
-    std::mt19937 rng;
-    rng.seed(std::random_device()());
-    std::uniform_int_distribution <std::mt19937::result_type> indices(0, v - 1);
-    std::uniform_int_distribution <std::mt19937::result_type> distances(0, max_distance);
 
-    for (int i = 0; i < v; i++) {
-        graph[i] = std::unordered_map<int, int>();
-    }
-
+std::vector <std::pair<int, int>>
+generate_edges(int v) {
     int c = 0;
-    while (c < e) {
-        int i = indices(rng);
-        int j = indices(rng);
-
-        if (i != j) {
-            int d = distances(rng);
-
-            int s = graph[i].size();
-            graph[i][j] = d;
-            if (undirected) {
-                graph[j][i] = d;
-            }
-            if (s != graph[i].size()) {
-                c++;
-            }
+    std::vector <std::pair<int, int>> edges(v * (v - 1) / 2);
+    for (int i = 0; i < v; ++i) {
+        for (int j = i + 1; j < v; ++j) {
+            edges[c] = std::make_pair(i, j);
+            c++;
         }
     }
+    return edges;
+}
 
+
+std::unordered_map<int, std::unordered_map<int, int>>
+generate_random_graph(int v, float density, std::vector <std::pair<int, int>> &edges, int max_distance) {
+
+    std::mt19937 rng;
+    rng.seed(std::random_device()());
+
+    std::uniform_int_distribution <std::default_random_engine::result_type> distances(0, max_distance);
+    std::unordered_map<int, std::unordered_map<int, int>> graph;
+    std::shuffle(std::begin(edges), std::end(edges), rng);
+
+
+    for (int i = 0; i < density * v * (v - 1) / 2; ++i) {
+        int distance = distances(rng);
+        graph[edges[i].first][edges[i].second] = distance;
+        graph[edges[i].second][edges[i].first] = distance;
+    }
 
     return graph;
 }
@@ -55,13 +53,17 @@ void print(const std::unordered_map<int, std::unordered_map<int, int>> &graph) {
         }
         std::cout << std::endl;
     }
+
 }
 
 int main() {
+
     int v = 10;
-    int e = 20;
-    int d = 100;
-    std::unordered_map<int, std::unordered_map<int, int>> graph = generate_random_graph(v, e, d, true);
+    int max_distance = 100;
+    float density = 1.0;
+
+    auto edges = generate_edges(v);
+    auto graph = generate_random_graph(v, density, edges, max_distance);
     print(graph);
     Dijkstra<int, int> dijkstra(graph, std::make_unique<Daryheap<int, int>>(Daryheap<int, int>(2)),
                                 graph.begin()->first);
