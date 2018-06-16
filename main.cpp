@@ -27,8 +27,8 @@ std::map<int, int> dijkstra(const std::unordered_map<int, std::unordered_map<int
 
     while (!h.empty()) {
         for (auto node : graph.at(current)) {
-            if (!distances.count(node.first) && distances[current] != std::numeric_limits<int>::max()) {
-                h.increase_priority(node.first, distances[current] + node.second);
+            if (!distances.count(node.first) && distances.at(current) != std::numeric_limits<int>::max()) {
+                h.increase_priority(node.first, distances.at(current) + node.second);
             }
         }
         current = h.top().first;

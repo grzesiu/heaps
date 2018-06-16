@@ -10,7 +10,9 @@ int main() {
         d.push(i, i);
     }
 
-    d.increase_priority(9, 5);
+    d.increase_priority(8, 5);
+    d.increase_priority(9, 3);
+    d.increase_priority(2, 0);
 
     while (!d.empty()) {
         std::cout << d.top().first << " " << d.top().second << std::endl;
