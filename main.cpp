@@ -64,6 +64,6 @@ int main() {
     std::unordered_map<int, std::unordered_map<int, int>> graph = generate_random_graph(v, e, d, true);
     print(graph);
     Dijkstra<int, int> dijkstra(graph, std::make_unique<Daryheap<int, int>>(Daryheap<int, int>(2)),
-                                graph.begin()->first, 0, std::numeric_limits<int>::max());
+                                graph.begin()->first);
     return 0;
 }
