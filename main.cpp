@@ -33,7 +33,6 @@ std::map<int, int> dijkstra(const std::unordered_map<int, std::unordered_map<int
         }
         current = h.top().first;
         distances[current] = h.top().second;
-        std::cout << current << " " << distances[current] << std::endl;
         h.pop();
     }
     return distances;
@@ -95,14 +94,26 @@ void hackerrank() {
 
         while (m--) {
             scanf("%d %d %d", &x, &y, &s);
-            graph[x][y] = s;
-            graph[y][x] = s;
+            if (!graph[x].count(y) || graph[x][y] > s) {
+                graph[x][y] = s;
+                graph[y][x] = s;
+            }
         }
 
         scanf("%d", &start);
-        dijkstra(graph, start);
-    }
 
+        printf("\n");
+
+        auto distances = dijkstra(graph, start);
+        for (const auto &distance : distances) {
+            if (distance.first != start and distance.second != std::numeric_limits<int>::max()) {
+                printf("%d ", distance.second);
+            } else if (distance.second == std::numeric_limits<int>::max()) {
+                printf("-1 ");
+            }
+        }
+        printf("\n");
+    }
 }
 
 void test() {
@@ -114,7 +125,10 @@ void test() {
     auto edges = generate_edges(v);
     auto graph = generate_random_graph(v, density, edges, max_distance);
     print(graph);
-    dijkstra(graph, graph.begin()->first);
+    auto distances = dijkstra(graph, graph.begin()->first);
+    for (const auto &distance : distances) {
+        printf("%d ", distance.second);
+    }
 }
 
 int main() {
