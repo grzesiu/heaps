@@ -8,8 +8,36 @@
 
 #include "fibheap.hpp"
 #include "daryheap.hpp"
-#include "dijkstra.hpp"
 
+
+std::map<int, int> dijkstra(const std::unordered_map<int, std::unordered_map<int, int>> &graph, int current) {
+
+    Daryheap<int, int> h(2);
+
+    std::set<int> ids;
+    for (auto nodes_map: graph) {
+        ids.insert(nodes_map.first);
+    }
+
+    ids.erase(current);
+    h.create(ids, std::numeric_limits<int>::max());
+
+    std::map<int, int> distances;
+    distances[current] = 0;
+
+    while (!h.empty()) {
+        for (auto node : graph.at(current)) {
+            if (!distances.count(node.first) && distances[current] != std::numeric_limits<int>::max()) {
+                h.increase_priority(node.first, distances[current] + node.second);
+            }
+        }
+        current = h.top().first;
+        distances[current] = h.top().second;
+        std::cout << current << " " << distances[current] << std::endl;
+        h.pop();
+    }
+    return distances;
+}
 
 std::vector <std::pair<int, int>>
 generate_edges(int v) {
@@ -53,10 +81,31 @@ void print(const std::unordered_map<int, std::unordered_map<int, int>> &graph) {
         }
         std::cout << std::endl;
     }
+}
+
+
+void hackerrank() {
+    int t, n, m, x, y, s, start;
+
+    scanf("%d", &t);
+
+    while (t--) {
+        scanf("%d %d", &n, &m);
+        std::unordered_map<int, std::unordered_map<int, int>> graph;
+
+        while (m--) {
+            scanf("%d %d %d", &x, &y, &s);
+            graph[x][y] = s;
+            graph[y][x] = s;
+        }
+
+        scanf("%d", &start);
+        dijkstra(graph, start);
+    }
 
 }
 
-int main() {
+void test() {
 
     int v = 10;
     int max_distance = 100;
@@ -65,7 +114,10 @@ int main() {
     auto edges = generate_edges(v);
     auto graph = generate_random_graph(v, density, edges, max_distance);
     print(graph);
-    Dijkstra<int, int> dijkstra(graph, std::make_unique<Daryheap<int, int>>(Daryheap<int, int>(2)),
-                                graph.begin()->first);
+    dijkstra(graph, graph.begin()->first);
+}
+
+int main() {
+    hackerrank();
     return 0;
 }
