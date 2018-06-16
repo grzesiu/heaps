@@ -32,6 +32,12 @@ void Daryheap<I, K>::create(const std::set <I> &ids, K max) {
 
 template<typename I, typename K>
 void Daryheap<I, K>::push(I id, K key) {
+    nodes.push_back(Darynode<I, K>(id, key));
+    indices[id] = nodes.size() - 1;
+
+    while (indices[id] && nodes[indices[id]].key < nodes[parent_index(indices[id])].key) {
+        swap(indices[id], parent_index(indices[id]));
+    }
 }
 
 template<typename I, typename K>
