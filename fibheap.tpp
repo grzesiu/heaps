@@ -6,10 +6,6 @@ template<typename I, typename K>
 Fibheap<I, K>::Fibheap() : root(nullptr) {}
 
 template<typename I, typename K>
-Fibheap<I, K>::Fibheap(std::function<bool(K const &, K const &)> comp) : root(nullptr) {
-}
-
-template<typename I, typename K>
 Fibheap<I, K>::~Fibheap() {
     for (auto i : nodes) {
         delete i.second;

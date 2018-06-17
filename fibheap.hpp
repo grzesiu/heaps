@@ -11,8 +11,6 @@ class Fibheap : public Heap<I, K> {
 public:
     Fibheap();
 
-    Fibheap(std::function<bool(K const &, K const &)> comp);
-
     ~Fibheap();
 
     bool empty() const;
