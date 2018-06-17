@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <ctime>
 #include <iostream>
 #include <limits>
 #include <random>
@@ -9,10 +10,8 @@
 #include "fibheap.hpp"
 #include "daryheap.hpp"
 
-
-std::map<int, int> dijkstra(const std::unordered_map<int, std::unordered_map<int, int>> &graph, int current) {
-
-    Daryheap<int, int> h(2);
+template<typename T, typename std::enable_if<std::is_base_of<Heap<int, int>, T>::value>::type * = nullptr>
+std::map<int, int> dijkstra(T h, const std::unordered_map<int, std::unordered_map<int, int>> &graph, int current) {
 
     std::set<int> ids;
     for (auto nodes_map: graph) {
@@ -104,7 +103,7 @@ void hackerrank() {
 
         printf("\n");
 
-        auto distances = dijkstra(graph, start);
+        auto distances = dijkstra(Daryheap<int, int>(2), graph, start);
         for (const auto &distance : distances) {
             if (distance.first != start and distance.second != std::numeric_limits<int>::max()) {
                 printf("%d ", distance.second);
@@ -116,22 +115,33 @@ void hackerrank() {
     }
 }
 
-void test() {
-
-    int v = 10;
+void test_heap() {
+    int t = 20;
+    int v = 1000;
     int max_distance = 100;
-    float density = 1.0;
-
     auto edges = generate_edges(v);
-    auto graph = generate_random_graph(v, density, edges, max_distance);
-    print(graph);
-    auto distances = dijkstra(graph, graph.begin()->first);
-    for (const auto &distance : distances) {
-        printf("%d ", distance.second);
+
+    while (t--) {
+        for (float density = 0.1; density < 1.01; density += 0.1) {
+            auto graph = generate_random_graph(v, density, edges, max_distance);
+
+            std::clock_t begin = std::clock();
+
+            dijkstra(Daryheap<int, int>(2), graph, graph.begin()->first);
+
+            std::clock_t end = std::clock();
+            std::cout << double(end - begin) / CLOCKS_PER_SEC;
+
+            if (density < 0.99) {
+                std::cout << ",";
+            }
+        }
+        std::cout << std::endl;
     }
 }
 
+
 int main() {
-    hackerrank();
+    test_heap();
     return 0;
 }
