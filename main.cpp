@@ -1,5 +1,8 @@
 #include <algorithm>
 #include <ctime>
+#include <cmath>
+#include <fstream>
+#include <functional>
 #include <iostream>
 #include <limits>
 #include <random>
@@ -140,8 +143,78 @@ void test_heap() {
     }
 }
 
+void test_daryheap_d() {
+    int v = 1024;
+    float density = 0.1;
+    int max_distance = 100;
+    auto edges = generate_edges(v);
+
+    std::vector<int> ds = {2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192, 256, 384, 512, 768, 1024};
+    int t = 20;
+
+    for (auto d:ds) {
+        std::cout << d << ",";
+    }
+    std::cout << std::endl;
+
+    while (t--) {
+
+        auto graph = generate_random_graph(v, density, edges, max_distance);
+
+        for (auto d:ds) {
+
+            std::clock_t start = std::clock();
+
+            dijkstra(Daryheap<int, int>(d), graph, graph.begin()->first);
+
+            std::clock_t finish = std::clock();
+            std::cout << finish - start << ",";
+
+        }
+        std::cout << std::endl;
+    }
+}
+
+
+void fib_vs_dary(float density) {
+
+    int max_distance = 100;
+    std::ofstream fib;
+    fib.open("fib" + std::to_string(density));
+    std::ofstream dary;
+    dary.open("dary" + std::to_string(density));
+    std::clock_t start;
+    std::clock_t finish;
+
+    for (int i = 5; i < 13; i++) {
+        int v = static_cast<int>(std::pow(2, i));
+        auto edges = generate_edges(v);
+        int d = static_cast<int>(density * (v - 1) / 2);
+        int t = 20;
+        while (t--) {
+
+            auto graph = generate_random_graph(v, density, edges, max_distance);
+
+            start = std::clock();
+            dijkstra(Fibheap<int, int>(), graph, graph.begin()->first);
+            finish = std::clock();
+            fib << finish - start << ",";
+
+            start = std::clock();
+            dijkstra(Daryheap<int, int>(d), graph, graph.begin()->first);
+            finish = std::clock();
+            dary << finish - start << ",";
+
+        }
+        fib << std::endl;
+        dary << std::endl;
+    }
+
+    fib.close();
+    dary.close();
+}
 
 int main() {
-    test_heap();
+    fib_vs_dary(1.0);
     return 0;
 }
